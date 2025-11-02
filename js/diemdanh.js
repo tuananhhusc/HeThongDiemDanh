@@ -8,7 +8,7 @@
   // API Base URL - Thay đổi khi deploy lên Render
   const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3001/api' 
-    : 'https://your-api-name.onrender.com/api'; // Thay bằng URL Render của bạn
+    : 'https://he-thong-diem-danh98.vercel.app/api'; // Thay bằng URL Render của bạn
 
   form.addEventListener('submit', async function(e){
     e.preventDefault();
@@ -44,3 +44,4 @@
     }
   });
 })();
+
