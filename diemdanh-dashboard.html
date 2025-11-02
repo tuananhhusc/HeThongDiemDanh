@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Điểm danh</title>
+    <meta name="description" content="Quản lý điểm danh học sinh">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/diemdanh.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">THU DUYEN</a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html#home" class="nav-link">HOME</a>
+                <a href="index.html#about" class="nav-link">ABOUT ME</a>
+                <a href="index.html#experience" class="nav-link">EXPERIENCE</a>
+                <a href="courses.html" class="nav-link">COURSE</a>
+                <a href="index.html#document" class="nav-link">DOCUMENT</a>
+                <a href="index.html#blog" class="nav-link">BLOG</a>
+                <a href="index.html#contact" class="nav-link">CONTACT</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page">
+        <section class="attendance-dashboard" style="padding: 6rem 0; background: var(--gradient-bg);">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Quản lý Điểm danh</h1>
+                    <button class="btn btn-secondary" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="classes"><i class="fas fa-users"></i> Lớp học</button>
+                    <button class="tab-btn" data-tab="sessions"><i class="fas fa-calendar"></i> Buổi học</button>
+                    <button class="tab-btn" data-tab="attendance"><i class="fas fa-check-square"></i> Điểm danh</button>
+                    <button class="tab-btn" data-tab="students"><i class="fas fa-user-graduate"></i> Học sinh</button>
+                </div>
+
+                <!-- Tab Content: Classes -->
+                <div class="tab-content active" id="tab-classes">
+                    <div class="section-header">
+                        <h2>Danh sách Lớp học</h2>
+                        <button class="btn btn-primary" id="addClassBtn"><i class="fas fa-plus"></i> Thêm lớp mới</button>
+                    </div>
+                    <div class="classes-grid" id="classesList"></div>
+                </div>
+
+                <!-- Tab Content: Sessions -->
+                <div class="tab-content" id="tab-sessions">
+                    <div class="section-header">
+                        <h2>Danh sách Buổi học</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <select id="filterClassSession" class="form-select">
+                                <option value="">Tất cả lớp</option>
+                            </select>
+                            <button class="btn btn-primary" id="addSessionBtn"><i class="fas fa-plus"></i> Thêm buổi học</button>
+                        </div>
+                    </div>
+                    <div class="sessions-list" id="sessionsList"></div>
+                </div>
+
+                <!-- Tab Content: Attendance -->
+                <div class="tab-content" id="tab-attendance">
+                    <div class="section-header">
+                        <h2>Điểm danh</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <select id="filterSessionAttendance" class="form-select">
+                                <option value="">Chọn buổi học</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="attendanceContent">
+                        <p style="text-align: center; color: var(--text-secondary); padding: 3rem;">Vui lòng chọn buổi học để xem điểm danh</p>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Students -->
+                <div class="tab-content" id="tab-students">
+                    <div class="section-header">
+                        <h2>Danh sách Học sinh</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <select id="filterClassStudent" class="form-select">
+                                <option value="">Tất cả lớp</option>
+                            </select>
+                            <button class="btn btn-primary" id="addStudentBtn"><i class="fas fa-plus"></i> Thêm học sinh</button>
+                        </div>
+                    </div>
+                    <div class="students-table-container">
+                        <table class="students-table" id="studentsTable">
+                            <thead>
+                                <tr>
+                                    <th>Mã HS</th>
+                                    <th>Họ tên</th>
+                                    <th>Lớp</th>
+                                    <th>Email</th>
+                                    <th>Điện thoại</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for Add/Edit Class -->
+    <div id="classModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 id="classModalTitle">Thêm lớp học mới</h2>
+            <form id="classForm">
+                <input type="hidden" id="classId">
+                <div class="form-group">
+                    <label>Tên lớp *</label>
+                    <input type="text" id="className" required>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea id="classDescription" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary modal-cancel">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Session -->
+    <div id="sessionModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 id="sessionModalTitle">Thêm buổi học mới</h2>
+            <form id="sessionForm">
+                <input type="hidden" id="sessionId">
+                <div class="form-group">
+                    <label>Lớp học *</label>
+                    <select id="sessionClassId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Ngày học *</label>
+                    <input type="date" id="sessionDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Chủ đề</label>
+                    <input type="text" id="sessionTopic">
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú</label>
+                    <textarea id="sessionNotes" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary modal-cancel">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Student -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 id="studentModalTitle">Thêm học sinh mới</h2>
+            <form id="studentForm">
+                <input type="hidden" id="studentId">
+                <div class="form-group">
+                    <label>Họ tên *</label>
+                    <input type="text" id="studentName" required>
+                </div>
+                <div class="form-group">
+                    <label>Mã học sinh *</label>
+                    <input type="text" id="studentCode" required>
+                </div>
+                <div class="form-group">
+                    <label>Lớp học *</label>
+                    <select id="studentClassId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="studentEmail">
+                </div>
+                <div class="form-group">
+                    <label>Điện thoại</label>
+                    <input type="tel" id="studentPhone">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary modal-cancel">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL - Thay đổi khi deploy lên Render
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3001/api' 
+            : 'https://your-api-name.onrender.com/api'; // Thay bằng URL Render của bạn
+        
+        // Check authentication
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'diemdanh.html';
+        }
+    </script>
+    <script src="js/diemdanh-dashboard.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
