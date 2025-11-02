@@ -1,7 +1,7 @@
 // API Base URL
 const API_BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:3001/api' 
-  : 'https://your-api-name.onrender.com/api'; // Thay bằng URL Render của bạn
+  : 'https://he-thong-diem-danh98.vercel.app/api'; // Thay bằng URL Render của bạn
 
 // Global state
 let classes = [];
@@ -570,4 +570,5 @@ window.editStudent = editStudent;
 window.deleteStudent = deleteStudent;
 window.viewAttendance = viewAttendance;
 window.saveAttendance = saveAttendance;
+
 
